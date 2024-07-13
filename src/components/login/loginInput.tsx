@@ -1,4 +1,4 @@
-"use client"
+
 import React from "react";
 
 interface InputProps {
@@ -15,7 +15,7 @@ const LoginInput: React.FC<InputProps> = ({ code, onChange }) => {
     }
 
     return (
-        <input readOnly className="w-1/3 h-1/5 text-center text-3xl border border-pinkOne" value={code} type="text" placeholder=" - - - - " onChange={handleChange}></input>
+        <input readOnly id="code-input" className="w-1/3 h-1/5 text-center text-3xl border border-pinkOne" value={code} type="text" placeholder=" - - - - " onChange={handleChange}></input>
     );
 }
 
