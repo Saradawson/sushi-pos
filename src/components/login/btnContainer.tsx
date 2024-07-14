@@ -19,7 +19,7 @@ const BtnContainer: React.FC<ValueProps> = ({ onClick, code }) => {
 
 
     return (
-        <div className='w-1/3 h-4/5'>
+        <div className='w-1/3 h-full'>
             {btnValues.map((row, index) => {
                 return (
                     <div className='h-1/4' key={index}>
@@ -32,7 +32,18 @@ const BtnContainer: React.FC<ValueProps> = ({ onClick, code }) => {
                                         value={value}
                                         disabled={(code.length < 4 ? true : false)}
                                         onClick={handleClick}
-                                        className="rounded-sm w-1/3 h-full text-3xl border border-pinkOne">{value}
+                                        className="rounded-sm w-1/3 h-full text-3xl border focus:bg-borderPink border-borderPink bg-pinkThree">{value}
+                                    </button>    
+                                ); 
+                            } else if(value === "CL"){
+                                return (
+                                    <button
+                                        key={value}
+                                        type="reset"
+                                        value={value}
+                                        disabled={code.length === 0 ? true : false}
+                                        onClick={handleClick}
+                                        className="rounded-sm w-1/3 h-full text-3xl focus:bg-borderPink border border-borderPink bg-pinkThree">{value}
                                     </button>    
                                 ); 
                             } else{
@@ -41,13 +52,11 @@ const BtnContainer: React.FC<ValueProps> = ({ onClick, code }) => {
                                         key={value}
                                         type={(value === "CL" ? "reset" : "button")}
                                         value={value}
-                                        disabled={(value === "CL" && code.length === 0 ? true : false || 
-                                                   value !== "CL" && code.length === 4 ? true : false
-                                                )}
+                                        disabled={code.length === 4 ? true : false}
                                         onClick={handleClick}
-                                        className="rounded-sm w-1/3 h-full text-3xl border border-pinkOne">{value}
-                                    </button>    
-                                ); 
+                                        className="rounded-sm w-1/3 h-full text-3xl border border-borderPink active:bg-borderPink">{value}
+                                    </button> 
+                               );
                             }
                         })}
                     </div>

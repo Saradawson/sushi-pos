@@ -10,7 +10,10 @@ const config: Config = {
     extend: {
       colors: {
         pinkOne: "#F58585",
-        pinkTwo: "#F9ABAB"
+        pinkTwo: "#F9ABAB",
+        pinkThree: "#FFE4E4",
+        pinkFour: "#FBEFEF",
+        borderPink: "#F9D1D1"
       }
     },
   },

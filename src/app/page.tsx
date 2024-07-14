@@ -1,13 +1,15 @@
 import LoginPage from "./routes/login/loginPage";
+import Header from "@/components/header/header";
+import Footer from "@/components/footer/footer";
 
 export default function Home() {
   return (
-    <div className="w-screen h-screen">
-      <header className="w-full h-1/5"></header>
-      <main className="min-w-screen h-3/5">
+    <div className="w-screen h-screen bg-pinkFour">
+        <Header></Header>
+      <main className="min-w-screen h-3/4 pb-8 pt-8">
         <LoginPage></LoginPage>
       </main>
-      <footer className="w-full h-1/5"></footer>
+      <Footer></Footer>
     </div>
   );
 }
