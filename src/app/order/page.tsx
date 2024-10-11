@@ -18,12 +18,12 @@ const Order: React.FC<OrderProps> = () => {
 
     return(
         <div className='w-full h-full flex px-4'>
-            <div className="w-1/2 flex flex-col items-center bg-white border">
-                <h2>Order</h2>
+            <div className="w-1/2 max-h-full flex flex-col items-center gap-2 bg-white border">
+                <h2 className="w-full text-center border text-lg font-semibold">Order</h2>
                 <div>
                     {order.map((item, key) => {
                         return(
-                            <h3 key={key}>{item}</h3>
+                            <h3 className="w-full" key={key}>{item}</h3>
                         );
                     })}
                 </div>

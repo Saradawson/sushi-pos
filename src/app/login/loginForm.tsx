@@ -1,15 +1,24 @@
 "use client"
 import BtnContainer from "./btnContainer";
 import LoginInput from "./loginInput";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
     const [code, setCode] = useState('');
+    const router = useRouter();
+    const [isMounted, setIsMounted] = useState(false);
 
-    const handlesubmit = (event: React.FormEvent) => {
+    useEffect(() => {
+        console.log('component mounted')
+        setIsMounted(true);
+    }, []);
+
+    const handlesubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        console.log("Form submitted with code:", code); // Log the code before routing
         window.alert(`${code} logged in!`);
-        setCode('');
+        router.push('/order')
     }
 
     const handleInputChange = (value: string) => {
@@ -18,6 +27,10 @@ export default function LoginForm() {
         } else if(value === "CL"){
             setCode('');
         }
+    }
+
+    if (!isMounted) {
+        return null;
     }
 
     return(
