@@ -1,42 +1,79 @@
 'use client'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface OrderProps {
     value: string;
-    onChange: (value: string) => void;
     order: [string];
+    itemClick: (value: string) => void;
 }
 
-const Order: React.FC<OrderProps> = () => {
-    const [order, setOrder] = useState<string[]>([]);
+interface OrderItem {
+    id: number; // Unique identifier
+    name: string;
+}
+  
 
-    const addItem = (event: React.MouseEvent<HTMLButtonElement>) => {
+const Order: React.FC<OrderProps> = ({ }) => {
+    const [order, setOrder] = useState<OrderItem[]>([]);
+    const [selectedItem, setSelectedItem] = useState<OrderItem | null>(null);
+    
+    useEffect(() => {
+        setOrder([])
+    }, [])
+
+    const addItem = (value: string) => {
+        const newItem: OrderItem = { id: order.length + 1, name: value };
+        setOrder((prevOrder) => [...prevOrder, newItem]);
+    };
+    
+    const itemClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         const target = event.target as HTMLInputElement;
-        const value = target.value
-        setOrder((prevOrder) => [...prevOrder, value])
+        const value = target.value;
+        addItem(value)
+        console.log(order)
     }
+    
+    const selectItem = (item: OrderItem) => setSelectedItem(item);
+
+    const deleteItem = () => {
+        if (selectedItem) {
+            const newOrder = order.filter(item => item !== selectedItem);
+            setOrder(newOrder);
+            setSelectedItem(null); // Deselect after deletion
+        }
+    };
 
     return(
         <div className='w-full h-full flex px-4'>
-            <div className="w-1/2 max-h-full flex flex-col items-center gap-2 bg-white border">
-                <h2 className="w-full text-center border text-lg font-semibold">Order</h2>
+            <div className="w-1/2 flex flex-col items-center bg-white border">
+                <h2>Order</h2>
                 <div>
-                    {order.map((item, key) => {
+                    {order.map((item) => {
                         return(
-                            <h3 className="w-full" key={key}>{item}</h3>
+                            <li 
+                                key={item.id}
+                                onClick={() => selectItem(item)}
+                                className={`cursor-pointer ${item === selectedItem ? 'bg-gray-300' : ''}`} // Highlight selected item
+                            >
+                                {item.name}
+                            </li>
                         );
                     })}
                 </div>
+                <button onClick={deleteItem} className="border bg-red-500 text-white p-2 rounded-md mt-4">
+                    Delete
+                </button>
             </div>
-            <div className="w-1/2 flex flex-col items-center border">
+            <form className="w-1/2 flex flex-col items-center border">
                 <h2>Items</h2>
                 <div>
                     <h3>Makis</h3>
-                    <button value='Maguro Maki' onClick={addItem} className="border bg-white p-4 rounded-md">Maguro Maki</button>
-                    <button value='Sake Maki' onClick={addItem} className="border bg-white p-4 rounded-md">Sake Maki</button>
-                    <button value='Hamachi Maki' onClick={addItem} className="border bg-white p-4 rounded-md">Hamachi Maki</button>
+                    <button type="button" value='Maguro Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Maguro Maki</button>
+                    <button value='Sake Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Sake Maki</button>
+                    <button value='Hamachi Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Hamachi Maki</button>
                 </div>
-            </div>    
+            </form>    
         </div>
     )
 }
