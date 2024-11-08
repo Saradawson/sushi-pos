@@ -1,7 +1,7 @@
 'useclient'
 
 interface OrderProps {
-    addItem: (value: string) => void;
+    addItem: (name: string, value: number) => void;
 }
 
 const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
@@ -10,8 +10,9 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
     const itemClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
         const target = event.target as HTMLInputElement;
+        const name = target.name;
         const value = target.value;
-        addItem(value)
+        addItem(name, Number(value))
     }
 
     return(
@@ -20,9 +21,9 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
             <div className="border w-full pt-5 p-1 flex flex-col items-start gap-2">
                 <h3 className="text-gray-500">Makis</h3>
                 <div>
-                    <button type="button" value='Maguro Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Maguro Maki</button>
-                    <button value='Sake Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Sake Maki</button>
-                    <button value='Hamachi Maki' onClick={itemClick} className="border bg-white p-4 rounded-md">Hamachi Maki</button>
+                    <button type="button" value={10} name="Maguro Maki" onClick={itemClick} className="border bg-white p-4 rounded-md">Maguro Maki</button>
+                    <button type="button" value={10} name="Sake Maki" onClick={itemClick} className="border bg-white p-4 rounded-md">Sake Maki</button>
+                    <button type="button" value={10} name="Hamachi Maki" onClick={itemClick} className="border bg-white p-4 rounded-md">Hamachi Maki</button>
                 </div>
             </div>
         </form>    

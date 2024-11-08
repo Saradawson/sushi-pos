@@ -3,13 +3,15 @@ import { useState, useEffect } from "react"
 import ItemButtons from "./itemButtons";
 
 interface OrderProps {
-    value: string;
+    value: number;
+    name: string;
     order: [];
 }
 
 interface OrderItem {
     id: number; // Unique identifier
     name: string;
+    value: number;
 }
   
 
@@ -21,8 +23,8 @@ const Order: React.FC<OrderProps> = ({ }) => {
         setOrder([])
     }, [])
 
-    const addItem = (value: string) => {
-        const newItem: OrderItem = { id: order.length + 1, name: value };
+    const addItem = (name: string, value: number) => {
+        const newItem: OrderItem = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, value: value };
         setOrder((prevOrder) => [...prevOrder, newItem]);
     };
 
@@ -51,18 +53,19 @@ const Order: React.FC<OrderProps> = ({ }) => {
 
     return(
         <div className='w-full h-full flex px-4'>
-            <div className="w-1/2 flex flex-col items-center bg-white border">
-                <h2>Order</h2>
-                <div>
+            <div className="w-1/2 flex flex-col items-center bg-white border font-medium">
+                <h2 className="text-xl w-full border text-center">Order</h2>
+                <div className="w-full">
                     {order.map((item) => {
                         return(
-                            <ol 
+                            <div 
                                 key={item.id}
                                 onClick={() => toggleItem(item)}
-                                className={`cursor-pointer ${isSelected(item) ? 'bg-gray-300' : ''}`} // Highlight selected item
+                                className={`p-2 pl-6 w-full flex flex-row text-start justify-between border cursor-pointer ${isSelected(item) ? 'bg-gray-300' : ''}`} // Highlight selected item
                             >
-                                {item.name}
-                            </ol>
+                                <ol>{item.name}</ol>
+                                <ol>${item.value}</ol>    
+                            </div>
                         );
                     })}
                 </div>
