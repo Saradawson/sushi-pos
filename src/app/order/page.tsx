@@ -23,6 +23,10 @@ const Order: React.FC<OrderProps> = ({ }) => {
         setOrder([])
     }, [])
 
+    const calculateTotal = () => {
+        return order.reduce((sum, item) => sum + item.price, 0). toFixed(2)
+    }
+
     const addItem = (name: string, price: number) => {
         const newItem: OrderItem = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, price: price }
         setOrder((prevOrder) => [...prevOrder, newItem])
@@ -52,8 +56,9 @@ const Order: React.FC<OrderProps> = ({ }) => {
       }
 
     return(
-        <form className='w-full h-full flex px-4'>
-            <div className="w-1/2 flex flex-col items-center bg-white border font-medium overflow-auto">
+        <form className='w-full h-full flex flex-col'>
+            <div className='w-full max-h-full flex px-4'>
+            <div className="w-1/2 flex flex-col items-center bg-white border font-medium overflow-y-scroll">
                 <h2 className="text-xl w-full border text-center">Order</h2>
                 <div className="w-full">
                     {order.map((item) => {
@@ -64,16 +69,22 @@ const Order: React.FC<OrderProps> = ({ }) => {
                                 className={`p-2 pl-6 w-full flex flex-row text-start justify-between border cursor-pointer ${isSelected(item) ? 'bg-gray-300' : ''}`} // Highlight selected item
                             >
                                 <ol>{item.name}</ol>
-                                <ol>${item.price}</ol>    
+                                <ol>${item.price.toFixed(2)}</ol>    
                             </div>
                         )
                     })}
                 </div>
-                <button disabled={selectedItems.length === 0} onClick={deleteSelectedItems} className="border bg-red-500 text-white p-2 rounded-md mt-4">
+            </div>
+            <ItemButtons addItem={addItem}></ItemButtons>
+            </div>
+            <div className="flex border flex-col items-end w-1/2 p-2 font-bold text-end">
+                <p>Total: ${calculateTotal()}</p>
+            </div>
+            <div className="w-1/2 flex justify-end">    
+                <button disabled={selectedItems.length === 0} onClick={deleteSelectedItems} className="w-fit border bg-red-500 text-white p-2 rounded-md mt-4">
                     Delete
                 </button>
             </div>
-            <ItemButtons addItem={addItem}></ItemButtons>
         </form>
     )
 }
