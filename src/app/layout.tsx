@@ -15,9 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="w-screen h-screen bg-pinkFour" suppressHydrationWarning={true}>
+      <body className="flex flex-col w-screen min-h-screen bg-pinkFour" suppressHydrationWarning={true}>
         <Header/>
-        <main className="min-w-screen h-4/5 pb-8 pt-8">{children}</main>
+        <main className="flex-grow overflow-hidden min-w-screen h-4/5 pb-8 pt-8">{children}</main>
         <Footer/>
       </body>
     </html>

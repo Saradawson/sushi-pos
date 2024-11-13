@@ -57,8 +57,8 @@ const Order: React.FC<OrderProps> = ({ }) => {
 
     return(
         <form className='w-full h-full flex flex-col'>
-            <div className='w-full max-h-full flex px-4'>
-            <div className="w-1/2 flex flex-col items-center bg-white border font-medium overflow-y-scroll">
+            <div className='w-full flex px-4'>
+            <div className="w-1/2 max-h-[70vh] overflow-y-auto flex flex-col flex-grow items-center bg-white border font-medium">
                 <h2 className="text-xl w-full border text-center">Order</h2>
                 <div className="w-full">
                     {order.map((item) => {
