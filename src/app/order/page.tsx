@@ -3,37 +3,46 @@ import { useState, useEffect } from "react"
 import ItemButtons from "./itemButtons"
 
 interface OrderProps {
-    price: number
-    name: string
     order: []
+    orders: []
 }
 
-interface OrderItem {
+interface OrderItems {
     id: number// Unique identifier
     name: string
     price: number
 }
+
+interface AllOrders {
+    id: Date
+    order: {}
+    total: string
+}
   
 
-const Order: React.FC<OrderProps> = ({ }) => {
-    const [order, setOrder] = useState<OrderItem[]>([])
-    const [selectedItems, setSelectedItems] = useState<OrderItem[]>([])
+const Order: React.FC<OrderProps> = () => {
+    const [orders, setOrders] = useState<AllOrders[]>([])
+    const [order, setOrder] = useState<OrderItems[]>([])
+    const [selectedItems, setSelectedItems] = useState<OrderItems[]>([])
+
     
     useEffect(() => {
         setOrder([])
     }, [])
-
+    
     const calculateTotal = () => {
         return order.reduce((sum, item) => sum + item.price, 0). toFixed(2)
     }
 
+    let total = calculateTotal()
+    
     const addItem = (name: string, price: number) => {
-        const newItem: OrderItem = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, price: price }
+        const newItem: OrderItems = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, price: price }
         setOrder((prevOrder) => [...prevOrder, newItem])
     }
 
       // Toggle item selection
-    const toggleItem = (item: OrderItem) => {
+    const toggleItem = (item: OrderItems) => {
         setSelectedItems((prevItems) => {
         if (prevItems.some((i) => i.id === item.id)) {
             return prevItems.filter((i) => i.id !== item.id)// Deselect if already selected
@@ -44,7 +53,7 @@ const Order: React.FC<OrderProps> = ({ }) => {
     }
     
       // Helper function to determine if an item is selected
-      const isSelected = (item: OrderItem) =>
+      const isSelected = (item: OrderItems) =>
         selectedItems.some((selectedItem) => selectedItem.id === item.id)
     
 
@@ -55,12 +64,19 @@ const Order: React.FC<OrderProps> = ({ }) => {
         setSelectedItems([])// Clear selected items after deletion
       }
 
+      const sendOrder = () => {
+        const newOrder: AllOrders = { id: new Date(), order: order, total: total }
+        setOrders((prevOrders) => [...prevOrders, newOrder])
+        setOrder([])
+        console.log(orders)
+      }
+
     return(
-        <form className='w-full h-full flex flex-col'>
-            <div className='flex-grow overflow-auto w-full h-full flex'>
-            <div className="w-1/2 overflow-y-auto border flex flex-col flex-grow items-center bg-white font-medium">
+        <form onSubmit={sendOrder} className='w-full h-full flex flex-col'>
+            <div className='w-full h-full flex'>
+            <div className="w-1/2 h-full border flex flex-col items-center bg-white font-medium">
                 <h2 className="text-xl border-y h-12 w-full text-center p-2">Order</h2>
-                <div className="w-full border">
+                <div className="w-full h-full overflow-y-auto flex-grow border">
                     {order.map((item) => {
                         return(
                             <div 
@@ -74,6 +90,9 @@ const Order: React.FC<OrderProps> = ({ }) => {
                         )
                     })}
                 </div>
+                <div className="flex border flex-col items-end w-full font-bold text-end p-1">
+                    <p>Total: ${total}</p>
+                </div>
             </div>
             <div className="w-1/2 flex flex-col border">
                 <div className="w-full h-12 border flex justify-start p-1">    
@@ -84,8 +103,10 @@ const Order: React.FC<OrderProps> = ({ }) => {
                 <ItemButtons addItem={addItem}></ItemButtons>
             </div>
             </div>
-            <div className="flex border flex-col items-end w-1/2 font-bold text-end p-1">
-                <p>Total: ${calculateTotal()}</p>
+            <div className="w-1/2 h-12 border-x flex justify-end p-1">    
+                    <button type="submit" disabled={order.length === 0} onClick={sendOrder} className="w-fit border bg-slate-400 text-white px-4 rounded-md">
+                        Send
+                    </button>
             </div>
         </form>
     )
