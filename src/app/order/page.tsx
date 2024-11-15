@@ -57,10 +57,10 @@ const Order: React.FC<OrderProps> = ({ }) => {
 
     return(
         <form className='w-full h-full flex flex-col'>
-            <div className='w-full flex px-4'>
-            <div className="w-1/2 max-h-[70vh] overflow-y-auto flex flex-col flex-grow items-center bg-white border font-medium">
-                <h2 className="text-xl w-full border text-center">Order</h2>
-                <div className="w-full">
+            <div className='flex-grow overflow-auto w-full h-full flex'>
+            <div className="w-1/2 overflow-y-auto border flex flex-col flex-grow items-center bg-white font-medium">
+                <h2 className="text-xl border-y h-12 w-full text-center p-2">Order</h2>
+                <div className="w-full border">
                     {order.map((item) => {
                         return(
                             <div 
@@ -75,15 +75,17 @@ const Order: React.FC<OrderProps> = ({ }) => {
                     })}
                 </div>
             </div>
-            <ItemButtons addItem={addItem}></ItemButtons>
+            <div className="w-1/2 flex flex-col border">
+                <div className="w-full h-12 border flex justify-start p-1">    
+                    <button disabled={selectedItems.length === 0} onClick={deleteSelectedItems} className="w-fit border bg-red-500 text-white px-2 rounded-md">
+                        Delete
+                    </button>
+                </div>
+                <ItemButtons addItem={addItem}></ItemButtons>
             </div>
-            <div className="flex border flex-col items-end w-1/2 p-2 font-bold text-end">
+            </div>
+            <div className="flex border flex-col items-end w-1/2 font-bold text-end p-1">
                 <p>Total: ${calculateTotal()}</p>
-            </div>
-            <div className="w-1/2 flex justify-end">    
-                <button disabled={selectedItems.length === 0} onClick={deleteSelectedItems} className="w-fit border bg-red-500 text-white p-2 rounded-md mt-4">
-                    Delete
-                </button>
             </div>
         </form>
     )

@@ -27,12 +27,11 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
     }
 
     return(
-        <div className="w-1/2 flex flex-col items-center border font-medium">
-            <h2 className="border w-full text-center text-lg">ITEMS</h2>
+        <div className="flex flex-col items-center border font-medium">
             {
                 items.map((category, categoryIndex) => {
                     return(
-                        <div key={categoryIndex} className="border w-full pt-5 p-1 flex flex-col items-start gap-2">
+                        <div key={categoryIndex} className="border-y w-full pt-5 p-1 flex flex-col items-start gap-2">
                             <h3 className="text-gray-500">{category.category}</h3>
                             <div>
                                 {category.items.map((item, itemIndex) => {
