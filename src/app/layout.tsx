@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="flex flex-col w-screen min-h-screen bg-pinkFour" suppressHydrationWarning={true}>
         <Header/>
-        <main className="flex-grow overflow-hidden min-w-screen h-4/5 pb-8 pt-8">{children}</main>
+        <main className="flex justify-center items-center flex-grow overflow-hidden min-w-screen h-[85vh]">{children}</main>
         <Footer/>
       </body>
     </html>

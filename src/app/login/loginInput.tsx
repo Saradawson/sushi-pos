@@ -15,7 +15,7 @@ const LoginInput: React.FC<InputProps> = ({ code, onChange }) => {
     }
 
     return (
-        <input readOnly id="code-input" className="w-1/3 h-1/5 text-center text-3xl border border-borderPink bg-pinkFour" value={code} type="text" placeholder=" - - - - " onChange={handleChange}></input>
+        <input readOnly id="code-input" className="w-full h-1/5 text-center text-4xl border border-borderPink bg-pinkFour" value={code} type="text" placeholder=" - - - - " onChange={handleChange}></input>
     );
 }
 

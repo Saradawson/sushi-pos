@@ -19,7 +19,7 @@ const BtnContainer: React.FC<ValueProps> = ({ onClick, code }) => {
 
 
     return (
-        <div className='w-1/3 h-full'>
+        <div className='w-full h-full'>
             {btnValues.map((row, index) => {
                 return (
                     <div className='h-1/4' key={index}>
