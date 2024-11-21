@@ -27,7 +27,7 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
     }
 
     return(
-        <div className="flex flex-col items-center border font-medium">
+        <div className="flex flex-col items-center border font-medium w-full">
             {
                 items.map((category, categoryIndex) => {
                     return(
