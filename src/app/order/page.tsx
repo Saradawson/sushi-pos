@@ -1,16 +1,17 @@
 'use client'
 import { useState, useEffect } from "react"
 import ItemButtons from "./itemButtons"
+import OrderList from "./orderList"
 
 interface OrderProps {
-    order: []
-    orders: []
+    order: [OrderItems]
 }
 
 interface OrderItems {
     id: number// Unique identifier
     name: string
     price: number
+    isSelected: boolean
 }
 
 interface AllOrders {
@@ -23,11 +24,12 @@ interface AllOrders {
 const Order: React.FC<OrderProps> = () => {
     const [orders, setOrders] = useState<AllOrders[]>([])
     const [order, setOrder] = useState<OrderItems[]>([])
-    const [selectedItems, setSelectedItems] = useState<OrderItems[]>([])
+    const [selctedItems, setSelectedItems] = useState(false)
 
     
     useEffect(() => {
         setOrder([])
+        setSelectedItems(false)
     }, [])
     
     const calculateTotal = () => {
@@ -37,31 +39,26 @@ const Order: React.FC<OrderProps> = () => {
     let total = calculateTotal()
     
     const addItem = (name: string, price: number) => {
-        const newItem: OrderItems = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, price: price }
+        const newItem: OrderItems = { id: (!order[order.length-1]) ? 0 : order[order.length-1].id +1, name: name, price: price, isSelected: false }
         setOrder((prevOrder) => [...prevOrder, newItem])
     }
 
       // Toggle item selection
-    const toggleItem = (item: OrderItems) => {
-        setSelectedItems((prevItems) => {
-        if (prevItems.some((i) => i.id === item.id)) {
-            return prevItems.filter((i) => i.id !== item.id)// Deselect if already selected
-        } else {
-            return [...prevItems, item]// Select if not selected
-        }
-        })
+    const toggleItem = (id: number) => {
+        setOrder(prevOrder =>
+            prevOrder.map(item => 
+                id === item.id ? { ...item, isSelected: !item.isSelected } : item
+            )
+        ) 
+        setSelectedItems(true) 
     }
     
-      // Helper function to determine if an item is selected
-      const isSelected = (item: OrderItems) =>
-        selectedItems.some((selectedItem) => selectedItem.id === item.id)
-    
 
-      const deleteSelectedItems = () => {
+      const deleteItems = () => {
         setOrder((prevItems) =>
-          prevItems.filter((item) => !selectedItems.some((i) => i.id === item.id))
+          prevItems.filter((item) => !item.isSelected)
         )
-        setSelectedItems([])// Clear selected items after deletion
+        setSelectedItems(false)
       }
 
       const sendOrder = () => {
@@ -76,37 +73,26 @@ const Order: React.FC<OrderProps> = () => {
             <div className='w-full h-full flex'>
             <div className="w-1/2 h-full border flex flex-col items-center bg-white font-medium">
                 <h2 className="text-xl border-y h-12 w-full text-center p-2">Order</h2>
-                <div className="w-full h-full overflow-y-auto flex-grow border">
-                    {order.map((item) => {
-                        return(
-                            <div 
-                                key={item.id}
-                                onClick={() => toggleItem(item)}
-                                className={`p-2 pl-6 w-full flex flex-row text-start justify-between border cursor-pointer ${isSelected(item) ? 'bg-gray-300' : ''}`} // Highlight selected item
-                            >
-                                <ol>{item.name}</ol>
-                                <ol>${item.price.toFixed(2)}</ol>    
-                            </div>
-                        )
-                    })}
+                <OrderList order={order} onDeleteItems={deleteItems} onToggleItem={toggleItem}></OrderList>
+                <div className="w-full border-x flex justify-end p-2 bg-pinkFour">    
+                        <button type="submit" disabled={order.length === 0} onClick={sendOrder} className="w-fit text-center border bg-slate-400 text-white px-6 p-3 rounded-md">
+                            Send
+                        </button>
                 </div>
-                <div className="flex border flex-col items-end w-full font-bold text-end p-1">
+                <div className="bg-pinkFour flex border flex-col items-end w-full font-bold text-end p-1">
                     <p>Total: ${total}</p>
                 </div>
             </div>
             <div className="w-1/2 flex flex-col border">
-                <div className="w-full h-12 border flex justify-start p-1">    
-                    <button disabled={selectedItems.length === 0} onClick={deleteSelectedItems} className="w-fit border bg-red-500 text-white px-2 rounded-md">
-                        Delete
-                    </button>
+                <div className="w-full flex justify-start p-1"> 
+                    {   selctedItems ?
+                        <button onClick={deleteItems} className="w-fit border bg-red-500 text-white text-center px-6 p-3 rounded-md">
+                            Delete
+                        </button> :
+                        <ItemButtons addItem={addItem}></ItemButtons>
+                    }   
                 </div>
-                <ItemButtons addItem={addItem}></ItemButtons>
             </div>
-            </div>
-            <div className="w-1/2 h-12 border-x flex justify-end p-1">    
-                    <button type="submit" disabled={order.length === 0} onClick={sendOrder} className="w-fit border bg-slate-400 text-white px-4 rounded-md">
-                        Send
-                    </button>
             </div>
         </form>
     )
