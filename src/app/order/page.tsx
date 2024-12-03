@@ -3,10 +3,6 @@ import { useState, useEffect } from "react"
 import ItemButtons from "./itemButtons"
 import OrderList from "./orderList"
 
-interface OrderProps {
-    order: [OrderItems]
-}
-
 interface OrderItems {
     id: number// Unique identifier
     name: string
@@ -21,7 +17,7 @@ interface AllOrders {
 }
   
 
-const Order: React.FC<OrderProps> = () => {
+const Order = () => {
     const [orders, setOrders] = useState<AllOrders[]>([])
     const [order, setOrder] = useState<OrderItems[]>([])
     const [selctedItems, setSelectedItems] = useState(false)
