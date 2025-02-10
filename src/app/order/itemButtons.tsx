@@ -36,7 +36,7 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
                             <div>
                                 {category.items.map((item, itemIndex) => {
                                     return(
-                                        <button key={itemIndex} data-price={item.price} type="button" value={10} name="Maguro Maki" onClick={itemClick} className="border bg-white p-4 rounded-md">{item.name}</button>
+                                        <button key={itemIndex} data-price={item.price} type="button" value={10} name={item.name} onClick={itemClick} className="border bg-white p-4 rounded-md">{item.name}</button>
                                     )
                                 })}
                             </div>
