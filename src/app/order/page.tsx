@@ -24,7 +24,7 @@ const Order = () => {
 
     
     useEffect(() => {
-        
+
         setOrder([])
         setSelectedItems(false)
     }, [])

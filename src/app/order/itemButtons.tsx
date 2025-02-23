@@ -43,7 +43,7 @@ const ItemButtons: React.FC<OrderProps> = ({ addItem }) => {
                         </div>
                     )
                 })
-            }
+        }~
         </div>    
     )
 }

@@ -34,7 +34,7 @@ export default function LoginForm() {
     }
 
     return(
-        <form onSubmit={handlesubmit} className="flex flex-col justify-center items-center w-full h-full p-8">
+        <form onSubmit={handlesubmit} className="flex flex-col justify-center items-center w-full h-full">
             <LoginInput code={code} value={code} onChange={handleInputChange}/>
             <BtnContainer code={code} value={code} onClick={handleInputChange}/>
         </form>
